@@ -1,10 +1,17 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:14.17-alpine' }
+    }
 
     stages {
-        stage('Build') {
+        stage('Enviroment') {
             steps {
-                echo 'Building..'
+                sh 'pwd'
+                sh 'ls -al'
+                sh 'cat /etc/os-release'
+                sh 'node -v'
+                sh 'npm -v'
+                sh 'yarn -v'
             }
         }
         stage('Test') {

@@ -26,6 +26,9 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                branch 'main'
+            }
             steps {
                 input message: 'Confirm to deploy? (Click "Proceed" to continue)'
                 echo 'Deployed'

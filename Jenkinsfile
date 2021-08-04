@@ -14,9 +14,16 @@ pipeline {
                 sh 'yarn -v'
             }
         }
+        stage('Build') {
+            steps {
+                sh 'yarn'
+                sh 'yarn build'
+            }
+        }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                sh 'yarn lint'
+                sh 'yarn test'
             }
         }
         stage('Deploy') {

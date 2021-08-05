@@ -1,20 +1,37 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:14.17-alpine' }
+    }
 
     stages {
+        stage('Enviroment') {
+            steps {
+                sh 'pwd'
+                sh 'ls -al'
+                sh 'cat /etc/os-release'
+                sh 'node -v'
+                sh 'npm -v'
+                sh 'yarn -v'
+            }
+        }
         stage('Build') {
             steps {
-                echo 'Building..'
+                sh 'yarn'
+                sh 'yarn build'
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                sh 'yarn lint'
             }
         }
         stage('Deploy') {
+            when {
+                branch 'main'
+            }
             steps {
-                echo 'Deploying....'
+                input message: 'Confirm to deploy? (Click "Proceed" to continue)'
+                echo 'Deployed'
             }
         }
     }
